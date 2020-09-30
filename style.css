@@ -16,6 +16,10 @@ h1 {
     margin: 0 auto;
 }
 
+.no-clicks {
+    pointer-events:none;
+}
+
 /* Player Section Styles */
 .scoreboard {
     display: grid;

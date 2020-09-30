@@ -4,6 +4,7 @@ var playerTwo = document.querySelector('.player-two');
 var winnerMessage = document.querySelector('.winner');
 var playerOneScore = document.querySelector('.score-p1');
 var playerTwoScore = document.querySelector('.score-p2');
+var draw = document.querySelector('.score-draw');
 
 var player = 1;
 var scoreboard = {
@@ -57,21 +58,40 @@ function checkForWinner(arr) {
     return {winner: false, player: null}
 }
 
+function countEmptyArr(arr) {
+    var count = 0;
+    for (var i = 0; i < arr.length; i++) {
+        if (typeof arr[i] === "undefined") {
+            count++;
+        }
+    }
+
+    return count;
+}
+
 function handleClick(event) {
     console.log(player)
     if (player === 1) {
-        event.target.textContent = 'X'
-        playerOne.classList.toggle('player-active')
+        event.target.textContent = 'X' // Apply X to grid
+        event.target.classList.toggle('no-clicks') // prevent a second click on same box
+        playerOne.classList.toggle('player-active') // switch player turn in UI (front end)
         playerTwo.classList.toggle('player-active')
-        game[getGridPosition(event)] = player;
-        player = 2;
-        if (checkForWinner(game).winner) {
+        game[getGridPosition(event)] = player; // add move to game data structure
+        player = 2; // switch turn in game logic (backend)
+        if (checkForWinner(game).winner) { // check for winner
             winnerMessage.textContent = `The winner is: Player ${checkForWinner(game).player}`
             scoreboard.playerOne += 1;
             playerOneScore.textContent = scoreboard.playerOne;
-        }
+        } else {
+            if (game.length  === 9 && countEmptyArr(game) === 0) {
+                winnerMessage.textContent = "It's a draw"
+                scoreboard.draw += 1;
+                draw.textContent = scoreboard.draw;
+            }
+        } 
     } else {
         event.target.textContent = 'O'
+        event.target.classList.toggle('no-clicks')
         playerOne.classList.toggle('player-active')
         playerTwo.classList.toggle('player-active')
         game[getGridPosition(event)] = player;
@@ -80,7 +100,13 @@ function handleClick(event) {
             winnerMessage.textContent = `The winner is: Player ${checkForWinner(game).player}`
             scoreboard.playerTwo += 1;
             playerTwoScore.textContent = scoreboard.playerTwo;
-        }
+        } else {
+            if (game.length  === 9 && countEmptyArr(game) === 0) {
+                winnerMessage.textContent = "It's a draw"
+                scoreboard.draw += 1;
+                draw.textContent = scoreboard.draw;
+            }
+        } 
     }
 }
 
