@@ -2,8 +2,15 @@ var boxes = document.querySelectorAll('.box');
 var playerOne = document.querySelector('.player-one');
 var playerTwo = document.querySelector('.player-two');
 var winnerMessage = document.querySelector('.winner');
+var playerOneScore = document.querySelector('.score-p1');
+var playerTwoScore = document.querySelector('.score-p2');
 
 var player = 1;
+var scoreboard = {
+    playerOne: 0,
+    playerTwo: 0,
+    draw: 0,
+}
 var game = [];
 
 function getGridPosition(event) {
@@ -60,6 +67,8 @@ function handleClick(event) {
         player = 2;
         if (checkForWinner(game).winner) {
             winnerMessage.textContent = `The winner is: Player ${checkForWinner(game).player}`
+            scoreboard.playerOne += 1;
+            playerOneScore.textContent = scoreboard.playerOne;
         }
     } else {
         event.target.textContent = 'O'
@@ -69,6 +78,8 @@ function handleClick(event) {
         player = 1;
         if (checkForWinner(game).winner) {
             winnerMessage.textContent = `The winner is: Player ${checkForWinner(game).player}`
+            scoreboard.playerTwo += 1;
+            playerTwoScore.textContent = scoreboard.playerTwo;
         }
     }
 }
