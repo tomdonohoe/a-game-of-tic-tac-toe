@@ -1,0 +1,64 @@
+/* Setup */
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+}
+
+h1 {
+    text-align: center;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Player Section Styles */
+.scoreboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 5px;
+    padding: 20px 0;
+}
+
+.score-box {
+    background-color: lightgray;
+    padding: 20px;
+    text-align: center;
+}
+
+.score {
+    background-color: white;
+}
+
+.player-active {
+    background-color: green;
+}
+
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    padding: 20px 0;
+}
+
+.box {
+    padding: 80px;
+    text-align: center;
+}
+
+.zero, .one, .two {
+    border-bottom: 5px solid black;
+}
+
+.three, .four, .five {
+    border-bottom: 5px solid black;
+}
+
+.zero, .one, .three, .four, .six, .seven {
+    border-right: 5px solid black;
+}
