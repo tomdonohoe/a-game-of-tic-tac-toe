@@ -3,10 +3,6 @@
     box-sizing: border-box;
 }
 
-body {
-
-}
-
 header {
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
