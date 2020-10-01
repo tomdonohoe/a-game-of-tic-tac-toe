@@ -24,6 +24,10 @@ h1 {
     visibility: hidden;
 }
 
+.light-green-bgc {
+    background-color: lightgreen;
+}
+
 /* Player Section Styles */
 .scoreboard {
     display: grid;

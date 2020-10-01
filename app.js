@@ -54,29 +54,38 @@ function itemIsEqualToFirst(element, index, arr) {
   }
 
 
-function checkEachItemIsTheSame(arrrayOfArrays) {
+function checkEachItemIsTheSame(arr) {
     // Loops through an array of array. For each array it checks if every is equal to first and not undefined.
-    for (var i = 0; i < arrrayOfArrays.length; i++) {
-        if ( arrrayOfArrays[i].every(itemIsEqualToFirst) ) {
-            return {isWinner: true, player: arrrayOfArrays[i][0]};
+    for (var i = 0; i < arr.length; i++) {
+        if ( arr[i].condition.every(itemIsEqualToFirst) ) {
+            return {isWinner: true, player: arr[i].condition[0], winningIndexCombo: arr[i].indexCombo};
         }
     }
     
-    return {isWinner: false, player: null};
+    return {isWinner: false, player: null, winningIndexCombo: null};
 }
 
 
 function checkForResult(arr) {
     // returns true if there's a winner otherwise false.
     var winConditions = [
-        [ arr[0], arr[1], arr[2] ],
-        [ arr[0], arr[3], arr[6] ],
-        [ arr[0], arr[4], arr[8] ],
-        [ arr[1], arr[4], arr[7] ],
-        [ arr[2], arr[5], arr[8] ],
-        [ arr[2], arr[4], arr[6] ],
-        [ arr[3], arr[4], arr[5] ],
-        [ arr[6], arr[7], arr[8] ]
+        {condition: [arr[0], arr[1], arr[2]], indexCombo: [0, 1, 2]},
+        {condition: [arr[0], arr[3], arr[6]], indexCombo: [0, 3, 6]},
+        {condition: [arr[0], arr[4], arr[8]], indexCombo: [0, 4, 8]},
+        {condition: [arr[1], arr[4], arr[7]], indexCombo: [1, 4, 7]},
+        {condition: [arr[2], arr[5], arr[8]], indexCombo: [2, 5, 8]},
+        {condition: [arr[2], arr[4], arr[6]], indexCombo: [2, 4, 6]},
+        {condition: [arr[3], arr[4], arr[5]], indexCombo: [3, 4, 5]},
+        {condition: [arr[6], arr[7], arr[8]], indexCombo: [6, 7, 8]},
+
+        // [ [arr[0], arr[1], arr[2] ],
+        // [ arr[0], arr[3], arr[6] ],
+        // [ arr[0], arr[4], arr[8] ],
+        // [ arr[1], arr[4], arr[7] ],
+        // [ arr[2], arr[5], arr[8] ],
+        // [ arr[2], arr[4], arr[6] ],
+        // [ arr[3], arr[4], arr[5] ],
+        // [ arr[6], arr[7], arr[8] ]
     ];
 
     return checkEachItemIsTheSame(winConditions);
@@ -135,6 +144,12 @@ function checkForDraw() {
     return false;
 }
 
+function highlightWinningComboInUI(result) {
+    uiSelectors.boxes[result.winningIndexCombo[0]].classList.add('light-green-bgc')
+    uiSelectors.boxes[result.winningIndexCombo[1]].classList.add('light-green-bgc')
+    uiSelectors.boxes[result.winningIndexCombo[2]].classList.add('light-green-bgc')
+}
+
 function evaluateGameResult(event) {
     result = checkForResult(gameTracker.moveLocations);
     // check if a win condition has been met.
@@ -145,7 +160,7 @@ function evaluateGameResult(event) {
         uiSelectors.gameGrid.classList.toggle('no-clicks');
         uiSelectors.winnerMessage.textContent = `The winner is: Player ${result.player}`;
         updateScorecard(result);
-        
+        highlightWinningComboInUI(result);
         return true;
     } else {
         // Otherwise,
@@ -167,6 +182,7 @@ function resetGame() {
         uiSelectors.boxes[i].classList.remove('no-clicks')
         uiSelectors.boxes[i].firstElementChild.src = ""
         uiSelectors.boxes[i].firstElementChild.classList.add('hidden')
+        uiSelectors.boxes[i].classList.remove('light-green-bgc')
     }
     uiSelectors.resetBtn.classList.add('hidden')
 }
