@@ -212,10 +212,10 @@ function openAndCloseSettingsMenu() {
 
 function updateSoundSettings() {
     if (gameTracker.settings.soundOn) {
-        uiSelectors.soundBtn.textContent = 'turn sound off';
+        uiSelectors.soundBtn.textContent = 'turn sound on';
         gameTracker.settings.soundOn = false;
     } else {
-        uiSelectors.soundBtn.textContent = 'turn sound on'
+        uiSelectors.soundBtn.textContent = 'turn sound off'
         gameTracker.settings.soundOn = true;
     }
 }
