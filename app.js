@@ -99,10 +99,12 @@ function makePlayerMove(event) {
         event.target.firstElementChild.src = "images/cross.png"
         event.target.firstElementChild.classList.remove('hidden')
         // event.target.textContent = 'X'; // Apply X to grid
+        beep()
     } else {
         // event.target.textContent = 'O'; // Apply O to grid
         event.target.firstElementChild.src = "images/circle.png"
         event.target.firstElementChild.classList.remove('hidden')
+        bonk()
     }
     event.target.classList.toggle('no-clicks') // prevent a second click on same box
     gameTracker.moveLocations[getPlayerMoveGridLocation(event)] = gameTracker.currentPlayerTurn; // add move to game data structure
@@ -161,6 +163,7 @@ function evaluateGameResult(event) {
         uiSelectors.winnerMessage.textContent = `The winner is: Player ${result.player}`;
         updateScorecard(result);
         highlightWinningComboInUI(result);
+        theWinner()
         return true;
     } else {
         // Otherwise,
@@ -190,6 +193,21 @@ function resetGame() {
 
 function givePlayAgainOption() {
     uiSelectors.resetBtn.classList.remove('hidden')
+}
+
+function beep() {
+    var goBeep = new Audio('audio/beepboing.wav');
+    goBeep.play();
+}
+
+function bonk() {
+    var goBonk = new Audio('audio/bonk.wav');
+    goBonk.play();
+}
+
+function theWinner() {
+    var winner = new Audio('audio/winner.wav');
+    winner.play();
 }
 
 
