@@ -4,12 +4,14 @@
 var gameTracker = {
     currentPlayerTurn: 1,
     moveLocations: [],
-}
-
-var scoreboard = {
-    playerOne: 0,
-    playerTwo: 0,
-    draw: 0,
+    scoreboard: {
+        playerOne: 0,
+        playerTwo: 0,
+        draw: 0,
+    },
+    settings: {
+        soundOn: true,
+    }
 }
 
 var uiSelectors = {
@@ -24,6 +26,9 @@ var uiSelectors = {
         draw: document.querySelector('.score-draw'),
     },
     resetBtn: document.querySelector('.reset-btn'),
+    settingsBtn: document.querySelector('.setting-img'),
+    settingsMenu: document.querySelector('.setting-options'),
+    soundBtn: document.querySelector('.sound-btn'),
 }
 
 // ===========
@@ -76,16 +81,7 @@ function checkForResult(arr) {
         {condition: [arr[2], arr[5], arr[8]], indexCombo: [2, 5, 8]},
         {condition: [arr[2], arr[4], arr[6]], indexCombo: [2, 4, 6]},
         {condition: [arr[3], arr[4], arr[5]], indexCombo: [3, 4, 5]},
-        {condition: [arr[6], arr[7], arr[8]], indexCombo: [6, 7, 8]},
-
-        // [ [arr[0], arr[1], arr[2] ],
-        // [ arr[0], arr[3], arr[6] ],
-        // [ arr[0], arr[4], arr[8] ],
-        // [ arr[1], arr[4], arr[7] ],
-        // [ arr[2], arr[5], arr[8] ],
-        // [ arr[2], arr[4], arr[6] ],
-        // [ arr[3], arr[4], arr[5] ],
-        // [ arr[6], arr[7], arr[8] ]
+        {condition: [arr[6], arr[7], arr[8]], indexCombo: [6, 7, 8]}
     ];
 
     return checkEachItemIsTheSame(winConditions);
@@ -99,12 +95,12 @@ function makePlayerMove(event) {
         event.target.firstElementChild.src = "images/cross.png"
         event.target.firstElementChild.classList.remove('hidden')
         // event.target.textContent = 'X'; // Apply X to grid
-        beep()
+        isSoundOn(beep)
     } else {
         // event.target.textContent = 'O'; // Apply O to grid
         event.target.firstElementChild.src = "images/circle.png"
         event.target.firstElementChild.classList.remove('hidden')
-        bonk()
+        isSoundOn(bonk)
     }
     event.target.classList.toggle('no-clicks') // prevent a second click on same box
     gameTracker.moveLocations[getPlayerMoveGridLocation(event)] = gameTracker.currentPlayerTurn; // add move to game data structure
@@ -122,11 +118,11 @@ function switchPlayerTurn(event) {
 
 function updateScorecard(result) {
     if (result.player === 1) {
-        scoreboard.playerOne += 1;
-        uiSelectors.scoreboard.playerOne.textContent = scoreboard.playerOne;
+        gameTracker.scoreboard.playerOne += 1;
+        uiSelectors.scoreboard.playerOne.textContent = gameTracker.scoreboard.playerOne;
     } else {
-        scoreboard.playerTwo += 1;
-        uiSelectors.scoreboard.playerTwo.textContent = scoreboard.playerTwo;
+        gameTracker.scoreboard.playerTwo += 1;
+        uiSelectors.scoreboard.playerTwo.textContent = gameTracker.scoreboard.playerTwo;
     }
 }
 
@@ -136,8 +132,8 @@ function checkForDraw() {
 
     if (allPositionsEvaluated && allPossibleMovesMade) {
         uiSelectors.winnerMessage.textContent = "It's a draw"
-        scoreboard.draw += 1;
-        uiSelectors.scoreboard.draw.textContent = scoreboard.draw;
+        gameTracker.scoreboard.draw += 1;
+        uiSelectors.scoreboard.draw.textContent = gameTracker.scoreboard.draw;
         uiSelectors.gameGrid.classList.toggle('no-clicks')
 
         return true
@@ -163,7 +159,7 @@ function evaluateGameResult(event) {
         uiSelectors.winnerMessage.textContent = `The winner is: Player ${result.player}`;
         updateScorecard(result);
         highlightWinningComboInUI(result);
-        theWinner()
+        isSoundOn(theWinner)
         return true;
     } else {
         // Otherwise,
@@ -210,6 +206,25 @@ function theWinner() {
     winner.play();
 }
 
+function openAndCloseSettingsMenu() {
+    uiSelectors.settingsMenu.classList.toggle('hidden-complete')
+}
+
+function updateSoundSettings() {
+    if (gameTracker.settings.soundOn) {
+        uiSelectors.soundBtn.textContent = 'turn sound off';
+        gameTracker.settings.soundOn = false;
+    } else {
+        uiSelectors.soundBtn.textContent = 'turn sound on'
+        gameTracker.settings.soundOn = true;
+    }
+}
+
+function isSoundOn(makeSound) {
+    if (gameTracker.settings.soundOn) {
+        makeSound()
+    }
+}
 
 function gameController(event) {
     makePlayerMove(event)
@@ -224,3 +239,5 @@ function gameController(event) {
 
 uiSelectors.boxes.forEach(elem => elem.addEventListener('click', gameController)) 
 uiSelectors.resetBtn.addEventListener('click', resetGame)
+uiSelectors.settingsBtn.addEventListener('click', openAndCloseSettingsMenu)
+uiSelectors.soundBtn.addEventListener('click', updateSoundSettings)

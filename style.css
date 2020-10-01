@@ -9,14 +9,14 @@ body {
 
 header {
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
 }
 
 h1 {
     text-align: center;
 }
 
-button {
+header button {
     padding: 20px 40px;
     border-radius: 10px;
     border: none;
@@ -31,12 +31,44 @@ button {
     margin: 0 auto;
 }
 
+.settings {
+    padding: 20px 0;
+}
+
+.settings button {
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.setting-icon {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.setting-options {
+    padding: 20px;
+    margin: 20px 0;
+    background-color: palevioletred;
+    height: 300px;
+}
+
+.setting-options select {
+    width: 150px;
+    height: auto;
+    font-size: 1.3rem;
+}
+
 .no-clicks {
     pointer-events:none;
 }
 
 .hidden {
     visibility: hidden;
+}
+
+.hidden-complete {
+    display: none;
 }
 
 .light-green-bgc {
