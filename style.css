@@ -12,12 +12,16 @@ h1 {
 }
 
 .container {
-    width: 80%;
+    width: 50%;
     margin: 0 auto;
 }
 
 .no-clicks {
     pointer-events:none;
+}
+
+.hidden {
+    visibility: hidden;
 }
 
 /* Player Section Styles */
@@ -51,8 +55,19 @@ h1 {
 }
 
 .box {
-    padding: 80px;
+    padding: 20px;
     text-align: center;
+}
+
+.box img {
+    width: 128px;
+    height: 128px;
+}
+
+.move {
+    background-image: url(images/cross.png);
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .zero, .one, .two {

@@ -23,6 +23,7 @@ var uiSelectors = {
         playerTwo: document.querySelector('.score-p2'),
         draw: document.querySelector('.score-draw'),
     },
+    resetBtn: document.querySelector('.reset-btn'),
 }
 
 // ===========
@@ -86,9 +87,13 @@ function checkForResult(arr) {
 /// Need to clean up below
 function makePlayerMove(event) {
     if (gameTracker.currentPlayerTurn === 1) {
-        event.target.textContent = 'X'; // Apply X to grid
+        event.target.firstElementChild.src = "images/cross.png"
+        event.target.firstElementChild.classList.remove('hidden')
+        // event.target.textContent = 'X'; // Apply X to grid
     } else {
-        event.target.textContent = 'O'; // Apply O to grid
+        // event.target.textContent = 'O'; // Apply O to grid
+        event.target.firstElementChild.src = "images/circle.png"
+        event.target.firstElementChild.classList.remove('hidden')
     }
     event.target.classList.toggle('no-clicks') // prevent a second click on same box
     gameTracker.moveLocations[getPlayerMoveGridLocation(event)] = gameTracker.currentPlayerTurn; // add move to game data structure
@@ -123,7 +128,11 @@ function checkForDraw() {
         scoreboard.draw += 1;
         uiSelectors.scoreboard.draw.textContent = scoreboard.draw;
         uiSelectors.gameGrid.classList.toggle('no-clicks')
-    } 
+
+        return true
+    }
+
+    return false;
 }
 
 function evaluateGameResult(event) {
@@ -136,15 +145,36 @@ function evaluateGameResult(event) {
         uiSelectors.gameGrid.classList.toggle('no-clicks');
         uiSelectors.winnerMessage.textContent = `The winner is: Player ${result.player}`;
         updateScorecard(result);
+        
+        return true;
     } else {
         // Otherwise,
             // check for a draw
             // if it is draw update UI and prevent more clicks
             // Update scorecard on backend and UI    
-        checkForDraw() 
+        return checkForDraw(); 
     }
 }
 
+function resetGame() {
+    gameTracker.currentPlayerTurn = 1;
+    gameTracker.moveLocations = [];
+    uiSelectors.playerOne.classList.add('player-active')
+    uiSelectors.playerTwo.classList.remove('player-active')
+    uiSelectors.gameGrid.classList.remove('no-clicks')
+    uiSelectors.winnerMessage.textContent = ''
+    for (var i = 0; i < uiSelectors.boxes.length; i++) {
+        uiSelectors.boxes[i].classList.remove('no-clicks')
+        uiSelectors.boxes[i].firstElementChild.src = ""
+        uiSelectors.boxes[i].firstElementChild.classList.add('hidden')
+    }
+    uiSelectors.resetBtn.classList.add('hidden')
+}
+
+
+function givePlayAgainOption() {
+    uiSelectors.resetBtn.classList.remove('hidden')
+}
 
 
 function gameController(event) {
@@ -152,8 +182,11 @@ function gameController(event) {
 
     switchPlayerTurn(event)
 
-    evaluateGameResult(event)
+    if (evaluateGameResult(event)) {
+        givePlayAgainOption()
+    }
 }
 
 
 uiSelectors.boxes.forEach(elem => elem.addEventListener('click', gameController)) 
+uiSelectors.resetBtn.addEventListener('click', resetGame)
