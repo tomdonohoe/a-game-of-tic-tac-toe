@@ -28,7 +28,8 @@ var uiSelectors = {
     resetBtn: document.querySelector('.reset-btn'),
     settingsBtn: document.querySelector('.setting-img'),
     settingsMenu: document.querySelector('.setting-options'),
-    soundBtn: document.querySelector('.sound-btn'),
+    soundBtn: document.querySelector('.sound'),
+    proModeBtn: document.querySelector('.pro')
 }
 
 // ===========
@@ -92,13 +93,13 @@ function checkForResult(arr) {
 /// Need to clean up below
 function makePlayerMove(event) {
     if (gameTracker.currentPlayerTurn === 1) {
-        event.target.firstElementChild.src = "images/cross.png"
+        event.target.firstElementChild.src = "images/jon-snow.png"
         event.target.firstElementChild.classList.remove('hidden')
         // event.target.textContent = 'X'; // Apply X to grid
         isSoundOn(beep)
     } else {
         // event.target.textContent = 'O'; // Apply O to grid
-        event.target.firstElementChild.src = "images/circle.png"
+        event.target.firstElementChild.src = "images/sam.png"
         event.target.firstElementChild.classList.remove('hidden')
         isSoundOn(bonk)
     }
@@ -146,6 +147,7 @@ function highlightWinningComboInUI(result) {
     uiSelectors.boxes[result.winningIndexCombo[0]].classList.add('light-green-bgc')
     uiSelectors.boxes[result.winningIndexCombo[1]].classList.add('light-green-bgc')
     uiSelectors.boxes[result.winningIndexCombo[2]].classList.add('light-green-bgc')
+
 }
 
 function evaluateGameResult(event) {
@@ -159,7 +161,6 @@ function evaluateGameResult(event) {
         uiSelectors.winnerMessage.textContent = `The winner is: Player ${result.player}`;
         updateScorecard(result);
         highlightWinningComboInUI(result);
-        isSoundOn(theWinner)
         return true;
     } else {
         // Otherwise,
@@ -201,9 +202,9 @@ function bonk() {
     goBonk.play();
 }
 
-function theWinner() {
-    var winner = new Audio('audio/winner.wav');
-    winner.play();
+function gotThemeSong() {
+    var theme = new Audio('audio/got.mp4');
+    theme.play();
 }
 
 function openAndCloseSettingsMenu() {
@@ -240,4 +241,5 @@ function gameController(event) {
 uiSelectors.boxes.forEach(elem => elem.addEventListener('click', gameController)) 
 uiSelectors.resetBtn.addEventListener('click', resetGame)
 uiSelectors.settingsBtn.addEventListener('click', openAndCloseSettingsMenu)
+uiSelectors.proModeBtn.addEventListener('click', gotThemeSong);
 uiSelectors.soundBtn.addEventListener('click', updateSoundSettings)

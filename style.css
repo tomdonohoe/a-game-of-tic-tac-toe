@@ -1,6 +1,23 @@
 /* Setup */
+@font-face {
+    font-family: 'Game of Thrones';
+    font-weight: normal;
+    font-style: normal;
+    src:  url('fonts/GameofThrones.woff2') format('woff2'),
+          url('fonts/GameofThrones.woff') format('woff'),
+          url('fonts/GameofThrones.ttf') format('truetype');
+  }
+
 * {
     box-sizing: border-box;
+}
+
+body {
+    /* GOT COLOR https://www.colourlovers.com/palette/1562540/Game_of_Thrones?widths=1 */
+    color: #0F1217;
+    font-family: 'Game of Thrones';
+    font-weight: normal;
+    font-style: normal;
 }
 
 header {
@@ -10,13 +27,15 @@ header {
 
 h1 {
     text-align: center;
+    font-size: 3.5rem;
+    font-weight: normal;
 }
 
 header button {
     padding: 20px 40px;
     border-radius: 10px;
     border: none;
-    background-color: palevioletred;
+    background-color: #202126;
     color: white;
     font-weight: bold;
     font-size: 2rem;
@@ -80,7 +99,7 @@ header button {
 }
 
 .score-box {
-    background-color: lightgray;
+    background-color: #9597A3;
     padding: 10px;
     text-align: center;
 }
@@ -91,7 +110,8 @@ header button {
 }
 
 .player-active {
-    background-color: palevioletred;
+    background-color: #202126;
+    color: white;
 }
 
 
@@ -119,13 +139,31 @@ header button {
 }
 
 .zero, .one, .two {
-    border-bottom: 5px solid black;
+    border-bottom: 5px solid #565A63;
 }
 
 .three, .four, .five {
-    border-bottom: 5px solid black;
+    border-bottom: 5px solid #565A63;
 }
 
 .zero, .one, .three, .four, .six, .seven {
-    border-right: 5px solid black;
+    border-right: 5px solid #565A63;
+}
+
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.img-blinks {
+    animation: blink 1s;
+    animation-iteration-count: 3;
 }
