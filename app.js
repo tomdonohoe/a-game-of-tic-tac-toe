@@ -1,3 +1,4 @@
+var gameGrid = document.querySelector('.grid');
 var boxes = document.querySelectorAll('.box');
 var playerOne = document.querySelector('.player-one');
 var playerTwo = document.querySelector('.player-two');
@@ -7,12 +8,15 @@ var playerTwoScore = document.querySelector('.score-p2');
 var draw = document.querySelector('.score-draw');
 
 var player = 1;
+
 var scoreboard = {
     playerOne: 0,
     playerTwo: 0,
     draw: 0,
 }
+
 var game = [];
+
 
 function getGridPosition(event) {
     var gridId = event.target.dataset.gridPostion;
@@ -82,11 +86,13 @@ function handleClick(event) {
             winnerMessage.textContent = `The winner is: Player ${checkForWinner(game).player}`
             scoreboard.playerOne += 1;
             playerOneScore.textContent = scoreboard.playerOne;
+            gameGrid.classList.toggle('no-clicks')
         } else {
             if (game.length  === 9 && countEmptyArr(game) === 0) {
                 winnerMessage.textContent = "It's a draw"
                 scoreboard.draw += 1;
                 draw.textContent = scoreboard.draw;
+                gameGrid.classList.toggle('no-clicks')
             }
         } 
     } else {
@@ -100,11 +106,13 @@ function handleClick(event) {
             winnerMessage.textContent = `The winner is: Player ${checkForWinner(game).player}`
             scoreboard.playerTwo += 1;
             playerTwoScore.textContent = scoreboard.playerTwo;
+            gameGrid.classList.toggle('no-clicks')
         } else {
             if (game.length  === 9 && countEmptyArr(game) === 0) {
                 winnerMessage.textContent = "It's a draw"
                 scoreboard.draw += 1;
                 draw.textContent = scoreboard.draw;
+                gameGrid.classList.toggle('no-clicks')
             }
         } 
     }
