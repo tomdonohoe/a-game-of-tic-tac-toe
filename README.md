@@ -2,7 +2,7 @@
 
 This project is a Game of Thrones themed version of the classic tic toc toe game.
 
-You can play the game by visit this URL --> https://tomdonohoe.github.io/tic-tac-toe/.
+You can play the game by visit this URL --> https://tomdonohoe.github.io/a-game-of-tic-tac-toe/.
 
 ![Preview](images/game-preview.png)
 
