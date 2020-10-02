@@ -10,7 +10,7 @@ var gameTracker = {
         draw: 0,
     },
     settings: {
-        soundOn: true,
+        soundOn: false,
     }
 }
 
@@ -202,9 +202,14 @@ function bonk() {
     goBonk.play();
 }
 
-function gotThemeSong() {
+function gotThemeSong(continuePlaying) {
     var theme = new Audio('audio/got.mp4');
     theme.play();
+    if (continuePlaying === false) {
+        theme.pause()
+    }
+
+    return theme;
 }
 
 function openAndCloseSettingsMenu() {
@@ -213,11 +218,12 @@ function openAndCloseSettingsMenu() {
 
 function updateSoundSettings() {
     if (gameTracker.settings.soundOn) {
-        uiSelectors.soundBtn.textContent = 'turn sound on';
+        uiSelectors.soundBtn.firstElementChild.src = 'images/sound-off.png'
         gameTracker.settings.soundOn = false;
     } else {
-        uiSelectors.soundBtn.textContent = 'turn sound off'
+        uiSelectors.soundBtn.firstElementChild.src = 'images/sound-on.png'
         gameTracker.settings.soundOn = true;
+        gotThemeSong()
     }
 }
 
@@ -241,5 +247,5 @@ function gameController(event) {
 uiSelectors.boxes.forEach(elem => elem.addEventListener('click', gameController)) 
 uiSelectors.resetBtn.addEventListener('click', resetGame)
 uiSelectors.settingsBtn.addEventListener('click', openAndCloseSettingsMenu)
-uiSelectors.proModeBtn.addEventListener('click', gotThemeSong);
+// uiSelectors.proModeBtn.addEventListener('click', gotThemeSong);
 uiSelectors.soundBtn.addEventListener('click', updateSoundSettings)

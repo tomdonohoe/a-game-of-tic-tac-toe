@@ -7,28 +7,25 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="settings">
 
-            <div class="setting-icon">
+    <div class="container">
+
+        <header>
+            <div class="setting-img-container">
                 <img class="setting-img" src="images/settings.png" alt="">
             </div>
+            <h1>A GAME OF TIC TAC TOE</h1>
+        </header>
+
+        <div class="settings">
             <div class="setting-options hidden-complete">
-                <h2>Settings</h2>
-                <div class="sound">
-                    <button class="setting-btn sound">turn sound off</button>
-                </div>
-                <div class="pro-mode">
-                    <button class="setting-btn pro">turn pro mode on</button>
+                <div class="setting-choices">
+                    <div class="sound">
+                        <img src="images/sound-off.png" class="setting-btn sound" alt="">
+                    </div>
                 </div>
             </div>
         </div>
-
-        <header>
-            <h1>A GAME OF TIC TAC TOE</h1>
-            <h2 class="winner"></h2>
-            <button class="reset-btn hidden">Play again!</button>
-        </header>
 
         <div class="grid">
             <div class="box zero" data-grid-postion="0"> 
@@ -63,13 +60,13 @@
         <section>
             <div class="scoreboard">
                 <div class="score-box player-one player-active">
-                    PLAYER 1 (X)
+                    PLAYER ONE
                 </div>
                 <div class="score-box">
                     DRAW
                 </div>
                 <div class="score-box player-two">
-                    PLAYER 2 (O)
+                    PLAYER TWO
                 </div>
 
 
@@ -85,7 +82,13 @@
             </div>
         </section>
 
+        <footer>
+            <h2 class="winner"></h2>
+            <button class="reset-btn hidden">PLAY AGAIN!</button>
+        </footer>
+
     </div>
+
     <script src="app.js"></script>
 </body>
 </html>
