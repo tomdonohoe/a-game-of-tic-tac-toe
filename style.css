@@ -20,23 +20,22 @@ body {
     font-family: 'Game of Thrones';
     font-weight: normal;
     font-style: normal;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 50px
 }
 
 h1 {
     text-align: center;
-    font-size: 3.5rem;
+    font-size: 3rem;
     font-weight: normal;
 }
 
 h2 {
     text-align: center;
-    font-size: 2.5rem;
     font-weight: normal;
-}
-
-.container {
-    width: 50%;
-    margin: 0 auto;
+    font-size: 2rem;
+    margin: 0;
 }
 
 /* 
@@ -60,28 +59,52 @@ h2 {
 }
 
 /* 
-========= Header =========
+========= Left sidebar =========
 */
 
-header {
+aside {
     display: grid;
-    grid-template-rows: 1fr 2fr;
-    margin-top: 20px;
+    grid-template-rows: 1fr 8fr 4fr;
+    gap: 20px
 }
 
 .setting-img-container {
     display: flex;
-    justify-content: flex-end;
-    
+    justify-content: center;    
+}
+
+h2.winner {
+    display: flex;
+    align-items: center;
+}
+/* 
+========= Header =========
+*/
+
+header {
+    /* display: grid;
+    grid-template-rows: 1fr 2fr; */
+    margin-top: 20px;
+}
+
+.results {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+}
+
+.results button {
+    padding: 20px 40px;
+    border-radius: 10px;
+    border: none;
+    background-color: #202126;
+    color: white;
+    font-weight: bold;
+    font-size: 2rem;
 }
 
 /* 
 ========= Settings box =========
 */
-
-.settings {
-    padding: 20px 0;
-}
 
 .setting-options {
     padding: 20px;
@@ -102,7 +125,6 @@ header {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-    padding: 20px 0;
 }
 
 .box {
@@ -150,35 +172,16 @@ header {
 
 .score-box {
     background-color: #9597A3;
-    padding: 30px;
+    padding: 15px;
     text-align: center;
-    font-size: 1.5rem;
 }
 
 .score {
     background-color: white;
-    font-size: 4rem;
+    font-size: 3rem;
 }
 
 .player-active {
     background-color: #202126;
     color: white;
-}
-
-/* 
-========= Winner and Game Reset =========
-*/
-.results {
-    display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
-}
-
-.results button {
-    padding: 20px 40px;
-    border-radius: 10px;
-    border: none;
-    background-color: #202126;
-    color: white;
-    font-weight: bold;
-    font-size: 2rem;
 }
