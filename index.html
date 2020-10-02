@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="container">
 
         <header>
@@ -17,7 +16,7 @@
             <h1>A GAME OF TIC TAC TOE</h1>
         </header>
 
-        <div class="settings">
+        <section class="settings">
             <div class="setting-options hidden-complete">
                 <div class="setting-choices">
                     <div class="sound">
@@ -25,9 +24,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="grid">
+        <main class="grid">
             <div class="box zero" data-grid-postion="0"> 
                 <img class="hidden" src="" alt=""> 
             </div>
@@ -55,37 +54,25 @@
             <div class="box eight" data-grid-postion="8">
                 <img class="hidden" src="" alt=""> 
             </div>
-        </div>
+        </main>
 
-        <section>
-            <div class="scoreboard">
-                <div class="score-box player-one player-active">
-                    PLAYER ONE
-                </div>
-                <div class="score-box">
-                    DRAW
-                </div>
-                <div class="score-box player-two">
-                    PLAYER TWO
-                </div>
-
-
-                <div class="score-box score score-p1">
-                    0
-                </div>
-                <div class="score-box score score-draw">
-                    0
-                </div>
-                <div class="score-box score score-p2">
-                    0
-                </div>
+        <section class="scoreboard">
+            <div class="players-grid">
+                <div class="score-box player-one player-active">PLAYER ONE</div>
+                <div class="score-box">DRAW</div>
+                <div class="score-box player-two">PLAYER TWO</div>
+            </div>
+            <div class="scores-grid">
+                <div class="score-box score score-p1">0</div>
+                <div class="score-box score score-draw">0</div>
+                <div class="score-box score score-p2">0</div>
             </div>
         </section>
 
-        <footer>
+        <section class="results">
             <h2 class="winner"></h2>
             <button class="reset-btn hidden">PLAY AGAIN!</button>
-        </footer>
+        </section>
 
     </div>
 

@@ -39,6 +39,10 @@ h2 {
     margin: 0 auto;
 }
 
+/* 
+========= JS DOM Manipulation Helpers =========
+*/
+
 .no-clicks {
     pointer-events:none;
 }
@@ -49,6 +53,10 @@ h2 {
 
 .hidden-complete {
     display: none;
+}
+
+.light-green-bgc {
+    background-color: lightgreen;
 }
 
 /* 
@@ -84,12 +92,6 @@ header {
 .setting-choices {
     display: grid;
     grid-template-columns: 1fr 1fr;
-}
-
-
-
-.light-green-bgc {
-    background-color: lightgreen;
 }
 
 /* 
@@ -131,9 +133,19 @@ header {
 
 .scoreboard {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 2fr;
     gap: 5px;
     padding: 20px 0;
+}
+
+.players-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.scores-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
 .score-box {
@@ -156,12 +168,12 @@ header {
 /* 
 ========= Winner and Game Reset =========
 */
-footer {
+.results {
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
 }
 
-footer button {
+.results button {
     padding: 20px 40px;
     border-radius: 10px;
     border: none;
