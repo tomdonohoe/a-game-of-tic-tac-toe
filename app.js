@@ -70,21 +70,39 @@ var settingsFunctions = {
     },
 }
 
-function countEmptyItemsInArray(arr) {
-    var count = 0;
-    for (var i = 0; i < arr.length; i++) {
-        if (typeof arr[i] === "undefined") {
-            count++;
-        }
-    }
-
-    return count;
-}
 
 function getPlayerMoveGridLocation(event) {
     // Returns the data attribute which refers to the boxes position in the grid on frontend.
     var gridId = event.target.dataset.gridPostion;
     return gridId;
+}
+
+
+function makePlayerMove(event) {
+    if (gameTracker.currentPlayerTurn === 1) {
+        event.target.firstElementChild.src = "images/jon-snow.png"
+        event.target.firstElementChild.classList.remove('hidden')
+        // event.target.textContent = 'X'; // Apply X to grid
+        settingsFunctions.isSoundOn(settingsFunctions.sounds.beep)
+    } else {
+        // event.target.textContent = 'O'; // Apply O to grid
+        event.target.firstElementChild.src = "images/sam.png"
+        event.target.firstElementChild.classList.remove('hidden')
+        settingsFunctions.isSoundOn(settingsFunctions.sounds.bonk)
+    }
+    event.target.classList.toggle('no-clicks') // prevent a second click on same box
+    gameTracker.moveLocations[getPlayerMoveGridLocation(event)] = gameTracker.currentPlayerTurn; // add move to game data structure
+}
+
+
+function switchPlayerTurn(event) {
+    uiSelectors.playerOne.classList.toggle('player-active') // switch player turn in UI (front end)
+    uiSelectors.playerTwo.classList.toggle('player-active')
+    if (gameTracker.currentPlayerTurn === 1) {
+        gameTracker.currentPlayerTurn = 2; // switch turn in game logic (backend)  
+    } else {
+        gameTracker.currentPlayerTurn = 1;
+    }
 }
 
 
@@ -122,35 +140,6 @@ function checkForResult(arr) {
     return checkEachItemIsTheSame(winConditions);
 }
 
-
-
-/// Need to clean up below
-function makePlayerMove(event) {
-    if (gameTracker.currentPlayerTurn === 1) {
-        event.target.firstElementChild.src = "images/jon-snow.png"
-        event.target.firstElementChild.classList.remove('hidden')
-        // event.target.textContent = 'X'; // Apply X to grid
-        settingsFunctions.isSoundOn(settingsFunctions.sounds.beep)
-    } else {
-        // event.target.textContent = 'O'; // Apply O to grid
-        event.target.firstElementChild.src = "images/sam.png"
-        event.target.firstElementChild.classList.remove('hidden')
-        settingsFunctions.isSoundOn(settingsFunctions.sounds.bonk)
-    }
-    event.target.classList.toggle('no-clicks') // prevent a second click on same box
-    gameTracker.moveLocations[getPlayerMoveGridLocation(event)] = gameTracker.currentPlayerTurn; // add move to game data structure
-}
-
-function switchPlayerTurn(event) {
-    uiSelectors.playerOne.classList.toggle('player-active') // switch player turn in UI (front end)
-    uiSelectors.playerTwo.classList.toggle('player-active')
-    if (gameTracker.currentPlayerTurn === 1) {
-        gameTracker.currentPlayerTurn = 2; // switch turn in game logic (backend)  
-    } else {
-        gameTracker.currentPlayerTurn = 1;
-    }
-}
-
 function updateScorecard(result) {
     if (result.player === 1) {
         gameTracker.scoreboard.playerOne += 1;
@@ -159,6 +148,24 @@ function updateScorecard(result) {
         gameTracker.scoreboard.playerTwo += 1;
         uiSelectors.scoreboard.playerTwo.textContent = gameTracker.scoreboard.playerTwo;
     }
+}
+
+function highlightWinningComboInUI(result) {
+    for (var i = 0; i < 3; i++) {
+        uiSelectors.boxes[result.winningIndexCombo[i]].classList.add('light-green-bgc')
+    }
+
+}
+
+function countEmptyItemsInArray(arr) {
+    var count = 0;
+    for (var i = 0; i < arr.length; i++) {
+        if (typeof arr[i] === "undefined") {
+            count++;
+        }
+    }
+
+    return count;
 }
 
 function checkForDraw() {
@@ -177,12 +184,6 @@ function checkForDraw() {
     return false;
 }
 
-function highlightWinningComboInUI(result) {
-    for (var i = 0; i < 3; i++) {
-        uiSelectors.boxes[result.winningIndexCombo[i]].classList.add('light-green-bgc')
-    }
-
-}
 
 function evaluateGameResult(event) {
     result = checkForResult(gameTracker.moveLocations);
@@ -205,6 +206,22 @@ function evaluateGameResult(event) {
     }
 }
 
+
+function givePlayAgainOption() {
+    uiSelectors.resetBtn.classList.remove('hidden')
+}
+
+// Main game function
+function gameController(event) {
+    makePlayerMove(event)
+
+    switchPlayerTurn(event)
+
+    if (evaluateGameResult(event)) {
+        givePlayAgainOption()
+    }
+}
+
 function resetGame() {
     gameTracker.currentPlayerTurn = 1;
     gameTracker.moveLocations = [];
@@ -219,21 +236,6 @@ function resetGame() {
         uiSelectors.boxes[i].classList.remove('light-green-bgc')
     }
     uiSelectors.resetBtn.classList.add('hidden')
-}
-
-
-function givePlayAgainOption() {
-    uiSelectors.resetBtn.classList.remove('hidden')
-}
-
-function gameController(event) {
-    makePlayerMove(event)
-
-    switchPlayerTurn(event)
-
-    if (evaluateGameResult(event)) {
-        givePlayAgainOption()
-    }
 }
 
 // Play the game:
