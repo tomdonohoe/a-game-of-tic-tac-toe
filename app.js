@@ -35,6 +35,40 @@ var uiSelectors = {
 // ===========
 // Functions
 // ===========
+var settingsFunctions = {
+    openAndCloseSettingsMenu: function() {
+        uiSelectors.settingsMenu.classList.toggle('hidden-complete')
+    },
+    updateSoundSettings: function() {
+        if (gameTracker.settings.soundOn) {
+            uiSelectors.soundBtn.firstElementChild.src = 'images/sound-off.png'
+            gameTracker.settings.soundOn = false;
+        } else {
+            uiSelectors.soundBtn.firstElementChild.src = 'images/sound-on.png'
+            gameTracker.settings.soundOn = true;
+            settingsFunctions.sounds.gotThemeSong()
+        }
+    },
+    isSoundOn: function(makeSound) {
+        if (gameTracker.settings.soundOn) {
+            makeSound()
+        }
+    },
+    sounds: {
+        beep: function() {
+            var goBeep = new Audio('audio/beepboing.wav');
+            goBeep.play();
+        },
+        bonk: function() {
+            var goBonk = new Audio('audio/bonk.wav');
+            goBonk.play();
+        },
+        gotThemeSong: function() {
+            var theme = new Audio('audio/got.mp4');
+            theme.play();
+        },
+    },
+}
 
 function countEmptyItemsInArray(arr) {
     var count = 0;
@@ -96,12 +130,12 @@ function makePlayerMove(event) {
         event.target.firstElementChild.src = "images/jon-snow.png"
         event.target.firstElementChild.classList.remove('hidden')
         // event.target.textContent = 'X'; // Apply X to grid
-        isSoundOn(beep)
+        settingsFunctions.isSoundOn(settingsFunctions.sounds.beep)
     } else {
         // event.target.textContent = 'O'; // Apply O to grid
         event.target.firstElementChild.src = "images/sam.png"
         event.target.firstElementChild.classList.remove('hidden')
-        isSoundOn(bonk)
+        settingsFunctions.isSoundOn(settingsFunctions.sounds.bonk)
     }
     event.target.classList.toggle('no-clicks') // prevent a second click on same box
     gameTracker.moveLocations[getPlayerMoveGridLocation(event)] = gameTracker.currentPlayerTurn; // add move to game data structure
@@ -144,9 +178,9 @@ function checkForDraw() {
 }
 
 function highlightWinningComboInUI(result) {
-    uiSelectors.boxes[result.winningIndexCombo[0]].classList.add('light-green-bgc')
-    uiSelectors.boxes[result.winningIndexCombo[1]].classList.add('light-green-bgc')
-    uiSelectors.boxes[result.winningIndexCombo[2]].classList.add('light-green-bgc')
+    for (var i = 0; i < 3; i++) {
+        uiSelectors.boxes[result.winningIndexCombo[i]].classList.add('light-green-bgc')
+    }
 
 }
 
@@ -192,47 +226,6 @@ function givePlayAgainOption() {
     uiSelectors.resetBtn.classList.remove('hidden')
 }
 
-function beep() {
-    var goBeep = new Audio('audio/beepboing.wav');
-    goBeep.play();
-}
-
-function bonk() {
-    var goBonk = new Audio('audio/bonk.wav');
-    goBonk.play();
-}
-
-function gotThemeSong(continuePlaying) {
-    var theme = new Audio('audio/got.mp4');
-    theme.play();
-    if (continuePlaying === false) {
-        theme.pause()
-    }
-
-    return theme;
-}
-
-function openAndCloseSettingsMenu() {
-    uiSelectors.settingsMenu.classList.toggle('hidden-complete')
-}
-
-function updateSoundSettings() {
-    if (gameTracker.settings.soundOn) {
-        uiSelectors.soundBtn.firstElementChild.src = 'images/sound-off.png'
-        gameTracker.settings.soundOn = false;
-    } else {
-        uiSelectors.soundBtn.firstElementChild.src = 'images/sound-on.png'
-        gameTracker.settings.soundOn = true;
-        gotThemeSong()
-    }
-}
-
-function isSoundOn(makeSound) {
-    if (gameTracker.settings.soundOn) {
-        makeSound()
-    }
-}
-
 function gameController(event) {
     makePlayerMove(event)
 
@@ -243,9 +236,12 @@ function gameController(event) {
     }
 }
 
-
+// Play the game:
 uiSelectors.boxes.forEach(elem => elem.addEventListener('click', gameController)) 
+
+// Reset the game:
 uiSelectors.resetBtn.addEventListener('click', resetGame)
-uiSelectors.settingsBtn.addEventListener('click', openAndCloseSettingsMenu)
-// uiSelectors.proModeBtn.addEventListener('click', gotThemeSong);
-uiSelectors.soundBtn.addEventListener('click', updateSoundSettings)
+
+// Settings for the game:
+uiSelectors.settingsBtn.addEventListener('click', settingsFunctions.openAndCloseSettingsMenu)
+uiSelectors.soundBtn.addEventListener('click', settingsFunctions.updateSoundSettings)
